@@ -1,6 +1,6 @@
 Name: grub
 Version: 0.97
-Release: 84%{?dist}
+Release: 93%{?dist}
 Epoch: 1
 Summary: Grand Unified Boot Loader.
 Group: System Environment/Base
@@ -81,7 +81,13 @@ Patch51: 0006-If-the-title-is-too-long-print-remaining-seconds-on-.patch
 Patch52: 0007-Recognize-virtio-blk-devices-when-running-on-OVMF.patch
 Patch53: 0001-efi-allocate-size-of-struct-instead-of-size-of-point.patch
 Patch54: 0001-grub-install-Add-support-for-NVMe-to-grub-install.patch
-Patch55: 0008-grub-install-add-regex-for-partition-and-multipath-w.patch
+Patch55: 0008-grub-proper-graphics-initialization.patch
+Patch56: 0009-grub-handle-uppercase-lowercase-command.patch
+Patch57: 0010-grub-install-add-regex-for-partition-and-multipath-w.patch
+Patch58: 0011-return-proper-disk-operation-status.patch
+Patch59: 0012-efigraph-stick-with-default-GOP-mode-unless-resoluti.patch
+Patch60: 0013-avoid-using-uefi-supplied-device-paths-on-CD.patch
+Patch61: 0014-fix-booting-without-vga.patch
 
 %description
 GRUB (Grand Unified Boot Loader) is an experimental boot loader
@@ -147,6 +153,12 @@ systems.
 %patch53 -p1
 %patch54 -p1
 %patch55 -p1
+%patch56 -p1
+%patch57 -p1
+%patch58 -p1
+%patch59 -p1
+%patch60 -p1
+%patch61 -p1
 
 %build
 autoreconf
@@ -209,10 +221,52 @@ fi
 %{_datadir}/grub
 
 %changelog
-* Wed Jul 23 2014 Jan Grulich <jgrulich@redhat.com> - 1:0.97-84
+* Fri Aug 29 2014 Jan Grulich <jgrulich@redhat.com> - 1:0.97-93
+- Fix booting wihout VGA
+  Resolves: rhbz#1131205
+
+* Wed Aug 27 2014 Jan Grulich <jgrulich@redhat.com> - 1:0.97-92
+- Avoid using uefi-supplied device paths on CD devices
+  Resolves: rhbz#1129466
+
+* Thu Aug 14 2014 Jan Grulich <jgrulich@redhat.com> - 1:0.97-91
+- Suppress failure message on EFI systems when loading splashscreen
+  Resolves: rhbz#1129436
+- Return proper disk operation status
+  Resolves: rhbz#1130209
+- Stick with default GOP mode unless resolution is absurdly small
+  Resolves: rhbz#1130313
+
+* Tue Aug 12 2014 Jan Grulich <jgrulich@redhat.com> - 1:0.97-90
+- Fix graphics initialization for non EFI systems
+  Resolves: rhbz#1128137
+
+* Thu Aug 07 2014 Jan Grulich <jgrulich@redhat.com> - 1:0.97-89
+- Another round of fixes for rhbz#1002809
+
+* Wed Jul 30 2014 Jan Grulich <jgrulich@redhat.com> - 1:0.97-88
+- Fix previous patch which didn't work as expected
+  Resolves: rhbz#1002809
+
+* Fri Jul 25 2014 Jan Grulich <jgrulich@redhat.com> - 1:0.97-87
+- Enable and fix previous patch for handling upper/lowercase commands
+  Resolves: rhbz#1002809
+
+* Wed Jul 23 2014 Jan Grulich <jgrulich@redhat.com> - 1:0.97-86
 - grub-install: add regex for partition and multipath when
   use_friendly_names is off
   Resolves: rhbz#1121321
+- Disable previous patch as it doesn't work properly
+
+* Tue Jun 10 2014 Jan Grulich <jgrulich@redhat.com> - 1:0.97-85
+- Handle upper/lowercase commands
+  Resolves: rhbz#1002809
+
+* Thu May 08 2014 Jan Grulich <jgrulich@redhat.com> - 1:0.97-84
+- Proper graphics initialization
+  Resolves: rhbz#1048681
+  Resolves: rhbz#1074914
+  Resolves: rhbz#1094978
 
 * Tue Oct 15 2013 Václav Pavlín <vpavlin@redhat.com> - 1:0.97-83
 - Allocate size of struct instead of size of pointer
@@ -531,7 +585,7 @@ fi
 - Get rid of the 0.97 "default" stuff, since it conflicts with our working
   method.
 
-* Mon Mar  9 2006 Peter Jones <pjones@redhat.com> - 0.97-4
+* Thu Mar 09 2006 Peter Jones <pjones@redhat.com> - 0.97-4
 - Fix running "install" multiple times on the same fs in the same invocation
   of grub.  (bz #158426 , patch from lxo@redhat.com)
 
@@ -583,7 +637,7 @@ fi
 - Mark the simulation stack executable
 - Eliminate the use of inline functions in stage2/builtins.c
 
-* Wed Jan 11 2005 Peter Jones <pjones@redhat.com> 0.95-7
+* Tue Jan 11 2005 Peter Jones <pjones@redhat.com> 0.95-7
 - Make grub ignore everything before the XPM header in the splash image,
   fixing #143879
 - If the boot splash image is missing, use console mode instead 
