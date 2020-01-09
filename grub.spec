@@ -1,6 +1,6 @@
 Name: grub
 Version: 0.97
-Release: 94%{?dist}
+Release: 94%{?dist}.1
 Epoch: 1
 Summary: Grand Unified Boot Loader.
 Group: System Environment/Base
@@ -90,6 +90,7 @@ Patch60: 0013-avoid-using-uefi-supplied-device-paths-on-CD.patch
 Patch61: 0014-fix-booting-without-vga.patch
 Patch62: 0015-Properly-expand-IPv6-address.patch
 Patch63: 0016-Parse-MAC-address-from-various-packet-types.patch
+Patch64: 0017-Fix-ext4-loading-ineffectiveness.patch
 
 %description
 GRUB (Grand Unified Boot Loader) is an experimental boot loader
@@ -163,6 +164,7 @@ systems.
 %patch61 -p1
 %patch62 -p1
 %patch63 -p1
+%patch64 -p1
 
 %build
 autoreconf
@@ -225,6 +227,10 @@ fi
 %{_datadir}/grub
 
 %changelog
+* Wed Feb 24 2016 David Kaspar [Dee'Kej] <dkaspar@redhat.com> - 1:0.97-94.el6_7.1
+- Fix the ineffectiveness when loading fragmented initramfs from Ext4 filesystem
+  Resolves: #1311474
+
 * Thu Apr 07 2015 Jan Grulich <jgrulich@redhat.com> - 1:0.97-94
 - Properly expand IPv6 address
   Resolves: bz#1177321
