@@ -1,6 +1,6 @@
 Name: grub
 Version: 0.97
-Release: 94%{?dist}.1
+Release: 99%{?dist}
 Epoch: 1
 Summary: Grand Unified Boot Loader.
 Group: System Environment/Base
@@ -91,6 +91,8 @@ Patch61: 0014-fix-booting-without-vga.patch
 Patch62: 0015-Properly-expand-IPv6-address.patch
 Patch63: 0016-Parse-MAC-address-from-various-packet-types.patch
 Patch64: 0017-Fix-ext4-loading-ineffectiveness.patch
+Patch65: 0018-Workaround-for-SGI-UV100-1000-UEFI-TFTP-read.patch
+Patch66: 0019-grub-install-more-than-1-letter-in-device-name.patch
 
 %description
 GRUB (Grand Unified Boot Loader) is an experimental boot loader
@@ -165,6 +167,8 @@ systems.
 %patch62 -p1
 %patch63 -p1
 %patch64 -p1
+%patch65 -p1
+%patch66 -p1
 
 %build
 autoreconf
@@ -227,9 +231,26 @@ fi
 %{_datadir}/grub
 
 %changelog
-* Wed Feb 24 2016 David Kaspar [Dee'Kej] <dkaspar@redhat.com> - 1:0.97-94.el6_7.1
+* Wed Nov  9 2016 David Kaspar [Dee'Kej] <dkaspar@redhat.com> - 0.97-99
+- Workaround for SGI UV100/1000 hardware updated to be more intuitive
+  Related: #1124862
+
+* Mon Sep 26 2016 David Kaspar [Dee'Kej] <dkaspar@redhat.com> - 0.97-98
+- Workaround for SGI UV100/1000 hardware (TFTP transfers in UEFI mode) added
+  Resolves: #1124862
+- Allow more than 1 letter in device name when using the grub-install script
+  Resolves: #1349389
+
+* Mon Apr 11 2016 David Kaspar [Dee'Kej] <dkaspar@redhat.com> - 1:0.97-97
+- Patch from previous commit c445aac0ee30f has been removed, because it did not
+  fix the issues with some SGI hardware. Bumping up the release number, so the
+  building of grub package is not affected in the future. For more info see:
+
+  Related: #1325860 (https://bugzilla.redhat.com/show_bug.cgi?id=1325860)
+
+* Tue Feb 23 2016 David Kaspar [Dee'Kej] <dkaspar@redhat.com> - 1:0.97-95
 - Fix the ineffectiveness when loading fragmented initramfs from Ext4 filesystem
-  Resolves: #1311474
+  Resolves: #1006373
 
 * Thu Apr 07 2015 Jan Grulich <jgrulich@redhat.com> - 1:0.97-94
 - Properly expand IPv6 address
