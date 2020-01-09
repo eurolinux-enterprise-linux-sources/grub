@@ -1,6 +1,6 @@
 Name: grub
 Version: 0.97
-Release: 93%{?dist}
+Release: 94%{?dist}
 Epoch: 1
 Summary: Grand Unified Boot Loader.
 Group: System Environment/Base
@@ -88,6 +88,8 @@ Patch58: 0011-return-proper-disk-operation-status.patch
 Patch59: 0012-efigraph-stick-with-default-GOP-mode-unless-resoluti.patch
 Patch60: 0013-avoid-using-uefi-supplied-device-paths-on-CD.patch
 Patch61: 0014-fix-booting-without-vga.patch
+Patch62: 0015-Properly-expand-IPv6-address.patch
+Patch63: 0016-Parse-MAC-address-from-various-packet-types.patch
 
 %description
 GRUB (Grand Unified Boot Loader) is an experimental boot loader
@@ -159,6 +161,8 @@ systems.
 %patch59 -p1
 %patch60 -p1
 %patch61 -p1
+%patch62 -p1
+%patch63 -p1
 
 %build
 autoreconf
@@ -221,6 +225,12 @@ fi
 %{_datadir}/grub
 
 %changelog
+* Thu Apr 07 2015 Jan Grulich <jgrulich@redhat.com> - 1:0.97-94
+- Properly expand IPv6 address
+  Resolves: bz#1177321
+- Support various types of DHCP IPv6 packet for MAC address extraction
+  Resolves: bz#1206542
+
 * Fri Aug 29 2014 Jan Grulich <jgrulich@redhat.com> - 1:0.97-93
 - Fix booting wihout VGA
   Resolves: rhbz#1131205
